@@ -16,7 +16,7 @@ function displayWord() {
     currentWord.split("").forEach(char => {
         const span = document.createElement("span");
         span.textContent = char;
-        span.style.color = "black"; 
+        span.classList.add("symbol");
         wordContainer.appendChild(span);
     });
 }
@@ -26,32 +26,37 @@ function resetGame() {
     wordMistakes = 0;
     currentWord = words[Math.floor(Math.random() * words.length)];
     displayWord();
-    correctCountElement.textContent = 0;
-    wrongCountElement.textContent = 0;
-    wordMistakesElement.textContent = 0;
+    correctCountElement.textContent = correctCount;
+    wrongCountElement.textContent = wrongCount;
+    wordMistakesElement.textContent = wordMistakes;
 }
 
 document.addEventListener("keydown", (event) => {
     const inputChar = event.key.toLowerCase(); 
     const spans = wordContainer.querySelectorAll('span');
+
     if (inputChar === currentWord[currentCharIndex].toLowerCase()) { 
-        correctCount++;
-        spans[currentCharIndex].style.color = 'green'; 
+        spans[currentCharIndex].classList.add('c');
         currentCharIndex++; 
     } else {
-        wrongCount++;
         wordMistakes++;
         if (currentCharIndex < spans.length) {
-            spans[currentCharIndex].style.color = 'red'; 
+            spans[currentCharIndex].classList.add('w'); 
         }
     }
 
-    correctCountElement.textContent = correctCount;
-    wrongCountElement.textContent = wrongCount;
     wordMistakesElement.textContent = wordMistakes;
 
     if (currentCharIndex === currentWord.length) {
-        alert('Слово введено правильно!');
+        if (wordMistakes === 0) {
+            correctCount++;
+        } else {
+            wrongCount++;
+        }
+
+        correctCountElement.textContent = correctCount;
+        wrongCountElement.textContent = wrongCount;
+
         resetGame();
     }
 });
