@@ -36,6 +36,7 @@ document.addEventListener("keydown", (event) => {
     const spans = wordContainer.querySelectorAll('span');
 
     if (inputChar === currentWord[currentCharIndex].toLowerCase()) { 
+        spans[currentCharIndex].classList.remove('w');
         spans[currentCharIndex].classList.add('c');
         currentCharIndex++; 
     } else {
